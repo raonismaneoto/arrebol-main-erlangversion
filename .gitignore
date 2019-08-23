@@ -1,0 +1,6 @@
+.*.dump
+.*.beam
+.*dump
+.*beam
+*.dump
+*.beam
