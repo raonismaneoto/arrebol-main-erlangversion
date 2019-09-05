@@ -15,6 +15,13 @@ loop({[], []}) ->
 			From ! {schedule, empty},
 			loop({[], []})
 	end;
+loop({[Head | Tail], []}) ->
+	receive
+		{subs, Node} ->
+			loop({[Head | Tail], [Node]});
+		{add, Job, From} ->
+			loop({[Head | lists:append(Tail, [Job])], []});
+	end;
 loop({[], [Head | Tail]}) ->
 	receive
 		{shedule, From} ->
