@@ -20,7 +20,7 @@ loop({[Head | Tail], []}) ->
 		{subs, Node} ->
 			loop({[Head | Tail], [Node]});
 		{add, Job, From} ->
-			loop({[Head | lists:append(Tail, [Job])], []});
+			loop({[Head | lists:append(Tail, [Job])], []})
 	end;
 loop({[], [Head | Tail]}) ->
 	receive
