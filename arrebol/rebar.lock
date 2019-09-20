@@ -1,0 +1,18 @@
+{"1.1.0",
+[{<<"elli">>,
+  {git,"git://github.com/knutin/elli.git",
+       {ref,"35eb9e8af459f48698bae7c6096d128e2f34fd6a"}},
+  0},
+ {<<"etest">>,
+  {git,"git://github.com/wooga/etest.git",
+       {ref,"c44a1a1d47e512a0b4a6cb2741bed4b48682a5c7"}},
+  0},
+ {<<"etest_http">>,
+  {git,"git://github.com/wooga/etest_http.git",
+       {ref,"9bb0647b499eb1955f8e43a299c17ab9869572c3"}},
+  0},
+ {<<"jiffy">>,{pkg,<<"jiffy">>,<<"1.0.1">>},1}]}.
+[
+{pkg_hash,[
+ {<<"jiffy">>, <<"4F25639772CA41202F41BA9C8F6CA0933554283DD4742C90651E03471C55E341">>}]}
+].
