@@ -10,6 +10,7 @@ loop({[], []}) ->
 		{subs, Node} ->
 			loop({[], [Node]});
 		{add, Job, From} ->
+			io:format("Job ~p~n", [Job]),
 			loop({[Job], []});
 		{schedule, From} ->
 			From ! {schedule, empty},
