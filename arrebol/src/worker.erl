@@ -1,23 +1,28 @@
 -module(worker).
-
--export([start/1, loop/1]).
+-behaviour(arrebol_worker).
+-export([start/1, execute_job/1]).
 
 start(Env) ->
-	subs(Env),
-	register(?MODULE, spawn(?MODULE, loop, [Env])).
+    arrebol_worker:start_link({Env, ?MODULE, node()}).
 
-subs({Scheduler}) -> 
-	Scheduler ! {subs, node()}.
+% start(Env) ->
+% 	subs(Env),
+% 	register(?MODULE, spawn(?MODULE, loop, [Env])).
 
-loop({Scheduler}) -> 
-	Scheduler ! {schedule, {?MODULE, node()}},
-	receive
-		{schedule, Job, From} ->
-			execute_job(Job),
-			loop({Scheduler});
-		{schedule, empty} ->
-			loop({Scheduler})
-	end.
+% subs({Scheduler}) -> 
+%     rpc:call(Scheduler, scheduler, subs, {?MODULE, node()}).
+% 	% Scheduler ! {subs, node()}.
+
+% loop({Scheduler}) ->
+%     rpc:call(Scheduler, scheduler,schedule, [{?MODULE, node()}]),
+% 	% Scheduler ! {schedule, {?MODULE, node()}},
+% 	receive
+% 		{schedule, Job, From} ->
+% 			execute_job(Job),
+% 			loop({Scheduler});
+% 		{schedule, empty} ->
+% 			loop({Scheduler})
+% 	end.
 
 execute_job(Command) ->
     Port = open_port({spawn, Command}, [stream, in, eof, hide, exit_status]),

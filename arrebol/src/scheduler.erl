@@ -27,12 +27,14 @@ handle_call({subs, Node}, _From, {[Head | Tail], []}) ->
 	{reply, ok, {[Head | Tail], [Node]}};
 
 handle_call({schedule}, _From, {[], [Head | Tail]}) ->
+	io:format("received schedule msg"),
 	{reply, {schedule, empty}, {[], [Head | Tail]}};
 
 handle_call({subs, Node}, _From, {[], [Head | Tail]}) ->
 	{reply, ok, {[], [Head, lists:append(Tail, [Node])]}};
 
 handle_call({schedule}, _From, {[Head | Tail], [Whead | Wtail]}) ->
+	io:format("received schedule msg"),
 	{reply, {schedule, Head, self()}, {Tail, [Whead | Wtail]}};
 
 handle_call({subs, Node}, _From, {[Head | Tail], [Whead | Wtail]}) ->
