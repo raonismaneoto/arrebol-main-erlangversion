@@ -1,8 +1,3 @@
-%%%-------------------------------------------------------------------
-%% @doc arrebol top level supervisor.
-%% @end
-%%%-------------------------------------------------------------------
-
 -module(arrebol_sup).
 
 -behaviour(supervisor).
@@ -16,24 +11,21 @@
 start_link() ->
     supervisor:start_link({local, ?SERVER}, ?MODULE, []).
 
-%% sup_flags() = #{strategy => strategy(),         % optional
-%%                 intensity => non_neg_integer(), % optional
-%%                 period => pos_integer()}        % optional
-%% child_spec() = #{id => child_id(),       % mandatory
-%%                  start => mfargs(),      % mandatory
-%%                  restart => restart(),   % optional
-%%                  shutdown => shutdown(), % optional
-%%                  type => worker(),       % optional
-%%                  modules => modules()}   % optional
 init([]) ->
-	ElliOpts = [{callback, arrebol_callback}, {port, 3000}],
-    ElliSpec = {
-        fancy_http,
-        {elli, start_link, [ElliOpts]},
+    ApiSpec = {
+        arrebol_api_sup,
+        {arrebol_api_sup, start_link, []},
         permanent,
         5000,
-        worker,
-        [elli]},
-    {ok, { {one_for_one, 5, 10}, [ElliSpec]} }.
+        supervisor,
+        [arrebol_api_sup]},
+    SchedulerSpec = {
+        scheduler_sup,
+        {scheduler_sup, start_link, []},
+        permanent,
+        5000,
+        supervisor,
+        [scheduler_sup]},
+    {ok, { {one_for_one, 5, 10}, [ApiSpec, SchedulerSpec]} }.
 
 %% internal functions
