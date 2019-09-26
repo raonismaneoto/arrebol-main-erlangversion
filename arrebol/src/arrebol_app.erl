@@ -13,8 +13,6 @@ start() ->
 	application:start(arrebol).
 
 start(_StartType, _StartArgs) ->
-    % arrebol_api_sup:start_link(),
-    % scheduler_sup:start_link().
     arrebol_sup:start_link().
 
 stop(_State) ->
